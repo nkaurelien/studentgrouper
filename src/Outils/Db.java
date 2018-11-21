@@ -3,24 +3,21 @@ package Outils;
 import java.sql.*;
 import java.util.Vector;
 
+    
+
 public class Db {
 
     private static Connection CON = null;
     private static PreparedStatement PS;
     private static ResultSet RS;
 
-    // parametres de connexion
-    private static final String pilote = "org.postgresql.Driver";
-    private static final String user = "postgres";
-    private static final String passwd = "marthe";
-    private static final String url = "jdbc:postgresql://localhost:5432/etudiant";
-
+   
     public Db() {
     }
 
-    public static Connection getConnexion(String url, String user, String passwd, String Pilote) {
+    public static Connection getConnexion(String url, String user, String passwd, String pilote) {
         try {
-            Class.forName(Pilote).newInstance();
+            Class.forName(pilote).newInstance();
             CON = DriverManager.getConnection(url, user, passwd);
         } catch (Exception e) {
             e.printStackTrace();
@@ -30,7 +27,7 @@ public class Db {
 
     public static Connection getConnexion() {
 
-        return Db.getConnexion(url, user, passwd, pilote);
+        return Db.getConnexion(MySqlSettings.url, MySqlSettings.user, MySqlSettings.passwd, MySqlSettings.pilote);
     }
 
     /**
@@ -100,4 +97,25 @@ public class Db {
         return res;
     }
 
+    
+    private class MySqlSettings {
+
+        private static final String pilote =  "com.mysql.jdbc.Driver";
+        private static final String user = "root";
+        private static final String passwd = "";
+        private static final String url = "jdbc:mysql://localhost:3306/etudiant";
+        
+       
+    }
+    
+    private class PostgresSettings {
+        
+        private static final String pilote = "org.postgresql.Driver";
+        private static final String user = "postgres";
+        private static final String passwd = "marthe";
+        private static final String url = "jdbc:postgresql://localhost:5432/etudiant";
+       
+    }
+
 }
+
